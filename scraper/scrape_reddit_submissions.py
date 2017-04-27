@@ -34,8 +34,16 @@ for subreddit in subreddits:
         udatestart = time.mktime(datestart.timetuple())
         udateend = time.mktime(dateend.timetuple())
 
-        # Get 1000 submissions from specified date
-        submissions = reddit.subreddit(subreddit).submissions(udatestart, udateend)
+        submissions = None
+        # Get 1000 submissions from specified date. Just wait if server is overloaded or we get blocked.
+        while True:
+            try:
+                submissions = reddit.subreddit(subreddit).submissions(udatestart, udateend)
+            except Exception:
+                print("HTTP error, waiting 5 seconds")
+                time.sleep(5)
+                continue
+            break
 
         # Write all submissions to file, Format is "title \n url \n doc_id \n date \n"
         for submission in submissions:
