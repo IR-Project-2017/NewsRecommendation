@@ -35,7 +35,7 @@ for subreddit in subreddits:
         udateend = time.mktime(dateend.timetuple())
 
         submissions = None
-        # Get 1000 submissions from specified date. Just wait if server is overloaded or we get blocked.
+        # Get submissions from specified date. Just wait if server is overloaded or we get blocked.
         while True:
             try:
                 submissions = reddit.subreddit(subreddit).submissions(udatestart, udateend)
@@ -45,7 +45,7 @@ for subreddit in subreddits:
                 continue
             break
 
-        # Write all submissions to file, Format is "title \n url \n doc_id \n date \n"
+        # Write all submissions to file, Format is "title \t url \t doc_id \t date \n"
         for submission in submissions:
             title = submission.title.encode('ascii', "ignore").decode("ascii")
             url = submission.url.encode('ascii', "ignore").decode("ascii")
