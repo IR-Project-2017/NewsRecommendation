@@ -20,8 +20,8 @@ for line in import_file.readlines():
     split_line = line.split("\t")
 
     doc = {
-        "url": split_line[0],
-        "title": split_line[1],
+        "title": split_line[0],
+        "url": split_line[1],
         'post_date': split_line[3].rstrip("\n")
     }
     res = es.index(index="testindex", doc_type=split_line[4].rstrip("\n"), id=split_line[2], body=doc)
