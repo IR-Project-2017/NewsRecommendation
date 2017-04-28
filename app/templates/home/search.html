@@ -1,22 +1,18 @@
-<html>
-    <head>
-        <title>Search Result</title>
-    </head>
-    <body>
-        <div class="search_box">
-            <form action="/search" method='GET'>
-                <input type="text" name="q" />
-                <input type="submit" value="search">
-            </form>
-        </div>
-        <div class="result_box">
-            {% for article in articles %}
-                <div class="article_url">
-                    <a href="{{ article['_source']['url']}}">
-                        {{ article["_source"]["title"]  }}
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-    </body>
-</html>
+{% extends "./common/layout.html" %}
+{% block body %}
+    <div class="search_box">
+        <form action="/search" method='GET'>
+            <input type="text" name="q" />
+            <input type="submit" value="search">
+        </form>
+    </div>
+    <div class="result_box">
+        {% for article in articles %}
+            <div class="article_url">
+                <a href="{{ article['_source']['url']}}">
+                    {{ article["_source"]["title"]  }}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock body %}
