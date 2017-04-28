@@ -1,4 +1,7 @@
 # NewsRecommendation
+## Python Version
+python >= 3.0
+
 ## Usage
 1. Firstly, you need to install __pip__  so as to use python modules.
 2. Installing python modules

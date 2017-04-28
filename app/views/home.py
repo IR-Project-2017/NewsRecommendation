@@ -9,5 +9,5 @@ def index():
 def search():
     if request.method == "GET":
         query = request.args.get('q')
-        print query
+        print(query)
     return render_template('home/search.html')

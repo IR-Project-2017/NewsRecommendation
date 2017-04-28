@@ -7,5 +7,6 @@
 Flask==0.12
 
 # Other packages
-## Elasticsearch 2.x
 elasticsearch>=2.0.0,<3.0.0
+praw==4.4.0
+
