@@ -1,0 +1,35 @@
+.logo-title{
+    margin-left: 20px;
+    font-size: 20px !important;
+}
+
+.input-field{
+    width: 70%;
+    margin: 0 auto !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.result_box{
+    margin-top: 15px;
+}
+
+.card-row{
+    margin-bottom: 0px !important;
+}
+
+.card-list{
+    margin: 0.4rem 0 0.8rem 0;
+}
+
+.card-content-extend{
+    padding: 18px !important;
+}
+
+.like_btn{
+    display: inline-block;
+    float: right;
+    right: 200px;
+    bottom: 9px;
+    margin-right: 15px;
+}
