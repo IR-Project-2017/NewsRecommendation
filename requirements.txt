@@ -12,4 +12,4 @@ praw==4.4.0
 
 ## praw
 praw==4.4.0
-Flask-PyMongo
+Flask-MongoAlchemy
