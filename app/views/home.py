@@ -1,5 +1,6 @@
 from flask import Blueprint, Flask, render_template, request
 from elasticsearch import Elasticsearch
+from app.models.profile import Profile
 
 es = Elasticsearch(index="")
 app = Blueprint("home", __name__, url_prefix="")
