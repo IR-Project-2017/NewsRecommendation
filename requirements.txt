@@ -8,10 +8,8 @@ Flask==0.12
 
 # Other packages
 elasticsearch>=2.0.0,<3.0.0
-<<<<<<< HEAD
 praw==4.4.0
 
-=======
 ## praw
 praw==4.4.0
->>>>>>> f3f8e130d9a14d0bf1651b599bd9fc0b02d7054f
+Flask-PyMongo
