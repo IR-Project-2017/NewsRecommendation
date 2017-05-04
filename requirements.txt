@@ -10,6 +10,5 @@ Flask==0.12
 elasticsearch>=2.0.0,<3.0.0
 praw==4.4.0
 
-## praw
-praw==4.4.0
-Flask-MongoAlchemy
+## pymongo
+pymongo
