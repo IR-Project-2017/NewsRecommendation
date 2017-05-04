@@ -7,7 +7,7 @@ from flask_mongoalchemy import MongoAlchemy
 app = Flask(__name__)
 app.register_blueprint(home.app)
 app.config['MONGOALCHEMY_DATABASE'] = 'library'
-db = MongoAlchemy(app)
+#db = MongoAlchemy(app)
 
 
 
