@@ -15,7 +15,7 @@ import_file = open(file_path, "r")
 counter = 0
 
 for line in import_file.readlines():
-
+    print(line)
     # Make sure we skip last newline
     if line == "\n":
         continue
@@ -23,8 +23,8 @@ for line in import_file.readlines():
     split_line = line.split("\t")
 
     doc = {
-        "title": split_line[0],
-        "url": split_line[1],
+        "title": split_line[0].rstrip("\n"),
+        "url": split_line[1].rstrip("\n"),
         "post_date": split_line[3].rstrip("\n"),
         "age_groups": {group_object.split(":")[0]: int(group_object.split(":")[1]) for group_object in (group_object_list for group_object_list in split_line[4].split(","))}
     }
