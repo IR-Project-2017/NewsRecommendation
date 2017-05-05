@@ -32,4 +32,13 @@
     right: 200px;
     bottom: 9px;
     margin-right: 15px;
+    background-color: #C7C7C7 !important;
+}
+
+.pushed{
+    display: inline-block;
+    float: right;
+    right: 200px;
+    bottom: 9px;
+    margin-right: 15px;
 }

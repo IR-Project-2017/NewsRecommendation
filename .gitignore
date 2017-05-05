@@ -1,2 +1,3 @@
 *.pyc
 env
+./scraper/post_file.txt

@@ -11,4 +11,4 @@ elasticsearch>=2.0.0,<3.0.0
 praw==4.4.0
 
 ## pymongo
-pymongo
+pymongo==3.4.0
