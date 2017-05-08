@@ -26,7 +26,9 @@ for line in import_file.readlines():
         "title": split_line[0].rstrip("\n"),
         "url": split_line[1].rstrip("\n"),
         "post_date": split_line[3].rstrip("\n"),
-        "age_groups": {group_object.split(":")[0]: int(group_object.split(":")[1]) for group_object in (group_object_list for group_object_list in split_line[4].split(","))}
+        "age_groups": {group_object.split(":")[0]: int(group_object.split(":")[1]) for group_object in (group_object_list for group_object_list in split_line[4].split(","))},
+        "like": 0,
+        "dislike": 0
     }
     # TODO Might wanna change doc_type to all have the same type, and add subreddit to _source
     res = es.index(index="testindex", doc_type=split_line[5].rstrip("\n"), id=split_line[2], body=doc)

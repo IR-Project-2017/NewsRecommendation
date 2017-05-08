@@ -2,10 +2,13 @@ function updateLike(index) {
     $like = $("#like" + index)
     var id = $like.data("id");
     var title = $like.data("title");
+    var doc_type = $like.data("doc_type");
+    console.log(doc_type)
     $.ajax({
         type: "POST",
         url: "/api/like",
         data: {"title": title,
+                "doc_type": doc_type,
                 "id": id}
     })
     .done(function(){
@@ -22,11 +25,12 @@ function updateDislike(index) {
     $dislike = $("#dislike" + index)
     var id = $dislike.data("id");
     var title = $dislike.data("title");
-    console.log(index)
+    var doc_type = $dislike.data("doc_type");
     $.ajax({
         type: "POST",
         url: "/api/dislike",
         data: {"title": title,
+                "doc_type": doc_type,
                 "id": id}
     })
     .done(function(){
