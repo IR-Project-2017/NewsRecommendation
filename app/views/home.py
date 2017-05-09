@@ -38,8 +38,7 @@ def search():
     return render_template('home/search.html', articles=res["hits"]["hits"], like_logs=like_logs, dislike_logs=dislike_logs)
 
 def set_cache(username):
-    if cache.get("username") is None:
-        cache.set("username", username)
+    cache.set("username", username)
 
 def construct_query(q_array):
     liked_docs = []
