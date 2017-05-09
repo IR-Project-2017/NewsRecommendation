@@ -12,3 +12,4 @@ praw==4.4.0
 
 ## pymongo
 pymongo==3.4.0
+Flask-Cache
