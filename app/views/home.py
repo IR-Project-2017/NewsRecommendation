@@ -42,17 +42,18 @@ def set_cache(username):
         cache.set("username", username)
 
 def construct_query(q_array):
-    condition = []
-    for ele in q_array:
-        condition.append({
-                "match": {
-                    "title": ele
-                        }
-                }
-        )
-    query = {"query":{
-                "bool": {
-                    "should": condition
+    liked_docs = []
+    for liked_doc in get_users_likes(cache.get("username")):
+        liked_docs.append(liked_doc["title"])
+    disliked_docs = []
+    for disliked_doc in get_users_dislikes(cache.get("username")):
+        disliked_docs.append(disliked_doc["title"])
+    query = {"query": {
+                "more_like_this": {
+                    "fields": ["title"],
+                    "like": q_array + liked_docs,
+                    "min_term_freq" : 1,
+                    "max_query_terms" : 12
                     }
                 }
             }
