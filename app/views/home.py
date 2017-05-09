@@ -31,7 +31,7 @@ def search():
 
         set_cache(username)
         q_array = q.split(" ")
-        query = construct_query(q_array)
+        query = construct_query(q_array, username)
         res = es.search(index="testindex", body=query)
         like_logs = cache.get(username + "_like_log")
         dislike_logs = cache.get(username + "_dislike_log")
@@ -41,20 +41,32 @@ def set_cache(username):
     if cache.get("username") is None:
         cache.set("username", username)
 
-def construct_query(q_array):
+def construct_query(q_array, username):
     liked_docs = []
-    for liked_doc in get_users_likes(cache.get("username")):
+    for liked_doc in get_users_likes(username):
         liked_docs.append(liked_doc["title"])
+        print(liked_doc)
     disliked_docs = []
-    for disliked_doc in get_users_dislikes(cache.get("username")):
+    for disliked_doc in get_users_dislikes(username):
         disliked_docs.append(disliked_doc["title"])
+
     query = {"query": {
-                "more_like_this": {
-                    "fields": ["title"],
-                    "like": q_array + liked_docs,
-                    "min_term_freq" : 1,
-                    "max_query_terms" : 12
-                    }
+                "dis_max":{
+                    "queries": [
+                        {"more_like_this": {
+                        "fields": ["title"],
+                        "like": liked_docs,
+                        "min_term_freq" : 1,
+                        "max_query_terms" : 12
+                    }},
+                        {"more_like_this": {
+                        "fields": ["title"],
+                        "like": q_array,
+                        "min_term_freq" : 1,
+                        "max_query_terms" : 12,
+                        "boost": 3
+                    }}]
                 }
+            }
             }
     return query
