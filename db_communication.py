@@ -36,7 +36,6 @@ def get_users_likes(user_id):
         client = MongoClient()
         db = client.news_recommender
         collection = db.likes
-        print("aaa")
         return collection.find({"user_id" : user_id}).sort("date", ASCENDING)
 
 def get_users_dislikes(user_id):
