@@ -33,6 +33,7 @@ def search():
         q_array = q.split(" ")
         query = construct_query(q_array, username)
         res = es.search(index="testindex", body=query)
+        print(res["hits"]["hits"])
         like_logs = cache.get(username + "_like_log")
         dislike_logs = cache.get(username + "_dislike_log")
     return render_template('home/search.html', articles=res["hits"]["hits"], like_logs=like_logs, dislike_logs=dislike_logs)
@@ -49,23 +50,56 @@ def construct_query(q_array, username):
     for disliked_doc in get_users_dislikes(username):
         disliked_docs.append(disliked_doc["title"])
 
-    query = {"query": {
-                "dis_max":{
-                    "queries": [
-                        {"more_like_this": {
-                        "fields": ["title"],
-                        "like": liked_docs,
-                        "min_term_freq" : 1,
-                        "max_query_terms" : 12
-                    }},
-                        {"more_like_this": {
+    if len(liked_docs) == 0:
+        query = {"query":{
+            "function_score":{
+                "query": {
+                    "more_like_this": {
                         "fields": ["title"],
                         "like": q_array,
                         "min_term_freq" : 1,
                         "max_query_terms" : 12,
-                        "boost": 3
-                    }}]
+                        "boost": 1.2
+
+                    }
+                },
+                "field_value_factor":{
+                    "field": "like",
+                    "modifier": "log1p"
                 }
             }
+
+        }
+        }
+
+    else:
+        query = {"query":{
+            "function_score":{
+            "query": {
+            "dis_max":{
+                "queries": [
+                    {"more_like_this": {
+                        "fields": ["title"],
+                        "like": liked_docs,
+                        "unlike": disliked_docs,
+                        "min_term_freq" : 1,
+                        "max_query_terms" : 12
+                    }},
+                    {"more_like_this": {
+                        "fields": ["title"],
+                        "like": q_array,
+                        "min_term_freq" : 1,
+                        "max_query_terms" : 12,
+                        "boost": 2.0
+                    }}]
             }
+        },
+                "field_value_factor":{
+                    "field": "like",
+                    "modifier": "log1p"
+                }
+        }}
+
+        }
+
     return query
