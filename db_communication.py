@@ -65,3 +65,20 @@ def get_user(user_id):
 	db = client.news_recommender
 	collection = db.profiles
 	return collection.find_one({"user_id" : user_id})
+
+def delete_user_feedback(username, feedback, article_id):
+	client = MongoClient()
+	db = client.news_recommender
+	collection = ""
+	if feedback == "like":
+		collection = db.likes
+	elif feedback == "dislike":
+		collection = db.dislikes
+	else:
+		print("Not supported feedback:" + feedback)
+		return
+
+	#If there are more than 5 entries, delete the oldest one
+	#and insert the new one...
+	collection.delete_one({"_id" : article_id})
+

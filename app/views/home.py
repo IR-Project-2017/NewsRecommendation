@@ -30,7 +30,7 @@ def search():
         print(res["hits"]["hits"])
         like_logs = cache.get(username + "_like_log")
         dislike_logs = cache.get(username + "_dislike_log")
-    return render_template('home/search.html', articles=res["hits"]["hits"], like_logs=like_logs, dislike_logs=dislike_logs)
+    return render_template('home/search.html', articles=res["hits"]["hits"], like_logs=like_logs, dislike_logs=dislike_logs, username=username)
 
 def set_cache(username):
     cache.set("username", username)

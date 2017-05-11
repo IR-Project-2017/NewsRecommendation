@@ -46,3 +46,34 @@ def dislike():
         logs.append(entry["id"])
     cache.set(username + "_dislike_log", logs)
     return jsonify({})
+
+@app.route("/like_undo", methods=["POST"])
+def like_undo():
+    username = cache.get("username")
+    article_id = request.form["id"]
+    delete_user_feedback(username, "like", article_id)
+    doc_type = request.form["doc_type"]
+    entries = get_users_likes(username)
+    script = {"script":{"inline": "ctx._source.like -= 1"}}
+    es.update(index="testindex", doc_type=doc_type, body=script, id = article_id)
+    logs = []
+    for entry in entries:
+        logs.append(entry["id"])
+    cache.set(username + "_like_log", logs)
+    return jsonify({})
+
+@app.route("/dislike_undo", methods=["POST"])
+def dislike_undo():
+    username = cache.get("username")
+    article_id = request.form["id"]
+    doc_type = request.form["doc_type"]
+    delete_user_feedback(username, "dislike", article_id)
+    entries = get_users_likes(username)
+    script = {"script":{"inline": "ctx._source.dislike -= 1"}}
+    es.update(index="testindex", doc_type=doc_type, body=script, id = article_id)
+    logs = []
+    for entry in entries:
+        logs.append(entry["id"])
+    cache.set(username + "_like_log", logs)
+    return jsonify({})
+
