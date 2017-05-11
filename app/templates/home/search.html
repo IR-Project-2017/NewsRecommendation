@@ -6,7 +6,7 @@
 				<div class="col s12">
 					<div class="card darken-1 hoverable card-list">
 						<div class="card-content white-text card-content-extend">
-							<a href={{article["_source"]["url"]}}>{{article["_source"]["title"]}}</a>
+                            <a href={{article["_source"]["url"]}} class="article_link"><p class="article_title">{{article["_source"]["title"]}}</p></a>
                             {% if dislike_logs and  article["_id"] in dislike_logs %}
                             <button class="btn-floating pushed" data-title="{{ article["_source"]["title"]  }}" data-id={{article["_id"]}} data-doc_type={{article["_type"]}} onclick="updateDislike({{loop.index}})" id="dislike{{loop.index}}"><i class="tiny material-icons">thumb_down</i></a>
                             

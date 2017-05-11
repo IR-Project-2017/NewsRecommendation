@@ -18,14 +18,8 @@ def search():
         if username is None:
             username = cache.get("username")
             user = get_user(username)
-            gender = user["gender"]
-            age = user["age"]
         else:
-            gender = request.args.get("gender")
-            age = request.args.get("age")
             user_data = {
-                    "age": age,
-                    "gender": gender
                     }
             add_user(username, user_data)
 
@@ -51,7 +45,9 @@ def construct_query(q_array, username):
         disliked_docs.append(disliked_doc["title"])
 
     if len(liked_docs) == 0:
-        query = {"query":{
+        query = {
+            "size": 50,
+            "query":{
             "function_score":{
                 "query": {
                     "more_like_this": {
@@ -73,7 +69,9 @@ def construct_query(q_array, username):
         }
 
     else:
-        query = {"query":{
+        query = {
+            "size": 50,
+            "query":{
             "function_score":{
             "query": {
             "dis_max":{
