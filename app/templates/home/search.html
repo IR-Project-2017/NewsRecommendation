@@ -7,20 +7,16 @@
 					<div class="card darken-1 hoverable card-list">
 						<div class="card-content white-text card-content-extend">
                             <a href={{article["_source"]["url"]}} class="article_link"><p class="article_title">{{article["_source"]["title"]}}</p></a>
-                            {% if dislike_logs and  article["_id"] in dislike_logs %}
-                            <button class="btn-floating pushed" data-title="{{ article["_source"]["title"]  }}" data-id={{article["_id"]}} data-doc_type={{article["_type"]}} onclick="backDislike({{loop.index}})" id="dislike{{loop.index}}"><i class="tiny material-icons">thumb_down</i></a>
-                            
+                            {% if dislike_logs and article["_id"] in dislike_logs%}
+                                <button class="btn-floating pushed" data-title="{{ article["_source"]["title"]  }}" data-id={{article["_id"]}} data-doc_type={{article["_type"]}} onclick="updateDislike({{loop.index}})" id="dislike{{loop.index}}"><i class="tiny material-icons">thumb_down</i></a>
+                                <button class="btn-floating like_btn disabled" data-id={{article["_id"]}}  data-title="{{article["_source"]["title"] }}"  onclick="updateLike({{loop.index}})" data-doc_type={{article["_type"]}} id="like{{loop.index}}"><i class="tiny material-icons">thumb_up</i></a>
+                            {% elif like_logs and article["_id"] in like_logs %}
+                                <button class="btn-floating like_btn disabled" data-title="{{ article["_source"]["title"]  }}" data-id={{article["_id"]}} data-doc_type={{article["_type"]}}  onclick="updateDislike({{loop.index}})" id="dislike{{loop.index}}"><i class="tiny material-icons">thumb_down</i></a>
+                                <button class="btn-floating pushed" data-id={{article["_id"]}}  data-title="{{article["_source"]["title"] }}"  onclick="updateLike({{loop.index}})" data-doc_type={{article["_type"]}} id="like{{loop.index}}"><i class="tiny material-icons">thumb_up</i></a>
                             {% else %}
-                            <button class="btn-floating like_btn" data-title="{{ article["_source"]["title"]  }}" data-id={{article["_id"]}} data-doc_type={{article["_type"]}}  onclick="updateDislike({{loop.index}})" id="dislike{{loop.index}}"><i class="tiny material-icons">thumb_down</i></a>
+                                <button class="btn-floating like_btn" data-title="{{ article["_source"]["title"]  }}" data-id={{article["_id"]}} data-doc_type={{article["_type"]}} onclick="updateDislike({{loop.index}})" id="dislike{{loop.index}}"><i class="tiny material-icons">thumb_down</i></a>
+                                <button class="btn-floating like_btn" data-id={{article["_id"]}}  data-title="{{article["_source"]["title"] }}"  onclick="updateLike({{loop.index}})" data-doc_type={{article["_type"]}} id="like{{loop.index}}"><i class="tiny material-icons">thumb_up</i></a>
                             {% endif %}
-
-                            {% if like_logs and  article["_id"] in like_logs %}
-                            <button class="btn-floating pushed" data-id={{article["_id"]}}  data-title="{{article["_source"]["title"] }}"  onclick="backLike({{loop.index}})" data-doc_type={{article["_type"]}} id="like{{loop.index}}"><i class="tiny material-icons">thumb_up</i></a>
-                            
-                            {% else %}
-                            <button onclick="updateLike({{loop.index}})" class="btn-floating like_btn" data-id={{article["_id"]}} data-doc_type={{article["_type"]}}  data-title="{{article["_source"]["title"] }}" id="like{{loop.index}}"><i class="tiny material-icons">thumb_up</i></a>
-                            {% endif %}
-
                             <!-- <a class="btn-floating btn-tiny waves-effect waves-light red"><i class="tiny material-icons">thumb_up</i></a> -->
 						</div>
 					</div>

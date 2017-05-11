@@ -35,12 +35,15 @@ def dislike():
     date = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
     insert_user_feedback(username, title, date, "dislike", id)
     entries = get_users_dislikes(username)
-    script ={
-            "script":{
-                    "inline": "ctx._source.dislike += 1"
+    res = es.get(index="testindex", doc_type=doc_type, id=id)
+    print(res["_source"]["like"])
+    if (res["_source"]["like"] > 0):
+        script ={
+                "script":{
+                        "inline": "ctx._source.like -= 1"
+                    }
                 }
-            }
-    es.update(index="testindex", doc_type=doc_type, id=id, body=script)
+        es.update(index="testindex", doc_type=doc_type, id=id, body=script)
     logs = []
     for entry in entries:
         logs.append(entry["id"])
