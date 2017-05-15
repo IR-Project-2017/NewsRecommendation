@@ -15,7 +15,7 @@ import_file = open(file_path, "r")
 counter = 0
 
 for line in import_file.readlines():
-    print(line)
+    # print(line)
     # Make sure we skip last newline
     if line == "\n":
         continue

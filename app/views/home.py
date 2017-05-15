@@ -2,6 +2,8 @@ from flask import Blueprint, Flask, render_template, request
 from elasticsearch import Elasticsearch
 from db_communication import *
 from cache import cache
+import pprint
+import re
 
 es = Elasticsearch(index="")
 app = Blueprint("home", __name__, url_prefix="")
@@ -27,7 +29,8 @@ def search():
         q_array = q.split(" ")
         query = construct_query(q_array, username)
         res = es.search(index="testindex", body=query)
-        print(res["hits"]["hits"])
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(res["hits"]["hits"])
         like_logs = cache.get(username + "_like_log")
         dislike_logs = cache.get(username + "_dislike_log")
     return render_template('home/search.html', articles=res["hits"]["hits"], like_logs=like_logs, dislike_logs=dislike_logs, username=username)
@@ -43,6 +46,12 @@ def construct_query(q_array, username):
     disliked_docs = []
     for disliked_doc in get_users_dislikes(username):
         disliked_docs.append(disliked_doc["title"])
+
+    # disliked_orig_query = []
+    # for disliked_doc in disliked_docs:
+    #     resultwords  = [word for word in disliked_doc.split(" ") if word.lower() not in q_array]
+    #     disliked_orig_query.append(' '.join(resultwords))
+    # print(disliked_orig_query)
 
     if len(liked_docs) == 0:
         query = {
@@ -61,7 +70,7 @@ def construct_query(q_array, username):
                 },
                 "field_value_factor":{
                     "field": "like",
-                    "modifier": "log1p"
+                    "modifier": "log2p"
                 }
             }
 
@@ -86,15 +95,16 @@ def construct_query(q_array, username):
                     {"more_like_this": {
                         "fields": ["title"],
                         "like": q_array,
+                        "unlike": disliked_docs,
                         "min_term_freq" : 1,
                         "max_query_terms" : 12,
-                        "boost": 2.0
+                        "boost": 4.0
                     }}]
             }
         },
                 "field_value_factor":{
                     "field": "like",
-                    "modifier": "log1p"
+                    "modifier": "log2p"
                 }
         }}
 

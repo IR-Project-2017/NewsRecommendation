@@ -20,7 +20,7 @@ def insert_user_feedback(user_id, title, date, feedback, id):
 	num_entries = user_entries.count()
 	#If there are more than 5 entries, delete the oldest one
 	#and insert the new one...
-	if num_entries >= 5:
+	if num_entries >= 10:
 		print("Too many entries, deleting oldest one...")
 		collection.delete_one({"_id" : user_entries[0]["_id"]})
 	post = {
